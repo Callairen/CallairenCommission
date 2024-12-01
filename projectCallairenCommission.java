@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class sketch2 {
-    static ArrayList<String> semuaPesanan = new ArrayList<>(); // Untuk menyimpan semua data pesanan pembeli
-
+public class projectCallairenCommission {
+    static ArrayList<String> semuadata = new ArrayList<>(); 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -15,31 +14,31 @@ public class sketch2 {
         System.out.print("Masukkan nickname: ");
         String nickname = scanner.nextLine();
         System.out.print("Masukkan nomor telepon: ");
-        String nomorTelepon = scanner.nextLine();
+        String noTelp = scanner.nextLine();
         System.out.print("Masukkan email: ");
         String email = scanner.nextLine();
 
-        // Cek apakah user adalah admin
-        if (nickname.equalsIgnoreCase("admin") && nomorTelepon.equals("699116") && email.equalsIgnoreCase("ren@gmail.com")) {
+        //ingfo admin 
+        if (nickname.equalsIgnoreCase("admin") && noTelp.equals("699116") && email.equalsIgnoreCase("ren@gmail.com")) {
             System.out.println("\n--- Data Semua Pesanan Pembeli ---");
-            if (semuaPesanan.isEmpty()) {
+            if (semuadata.isEmpty()) {
                 System.out.println("Belum ada pesanan yang tersimpan.");
             } else {
-                for (String pesanan : semuaPesanan) {
+                for (String pesanan : semuadata) {
                     System.out.println(pesanan);
                 }
             }
             return;
         }
 
-        // Variabel untuk total harga dan daftar item
+       
         int totalHarga = 0;
         ArrayList<String> detailPesanan = new ArrayList<>();
         boolean menambahPesanan = true;
 
         while (menambahPesanan) {
             try {
-                // Halaman 2: Katalog produk
+                
                 System.out.println("\nKatalog Produk:");
                 int[] pengaliKarakter = {100, 150, 200};
                 System.out.println("Kamu mau order berapa karakter?");
@@ -49,10 +48,10 @@ public class sketch2 {
                 int pilihanKarakter = scanner.nextInt();
                 if (pilihanKarakter < 1 || pilihanKarakter > 3) {
                     System.out.println("Pilihan tidak valid!");
-                    continue; // Kembali ke awal perulangan
+                    continue; 
                 }
 
-                // Pilihan paket
+                //pakeetttt
                 System.out.println("\nPilih paket:");
                 String[] paket = {
                     "Headshot (FREE 2 ICON) 40K",
@@ -72,31 +71,31 @@ public class sketch2 {
                 int pilihanPaket = scanner.nextInt();
                 if (pilihanPaket < 1 || pilihanPaket > paket.length) {
                     System.out.println("Pilihan tidak valid!");
-                    continue; // Kembali ke awal perulangan
+                    continue; 
                 }
                 int hargaDasar = hargaPaket[pilihanPaket - 1];
                 int hargaAkhir = hargaDasar * pengaliKarakter[pilihanKarakter - 1] / 100;
                 totalHarga += hargaAkhir;
 
-                // Simpan detail order
-                String detailPesananBaru = (detailPesanan.size() + 1) + ". (" + pilihanKarakter + " karakter)\n   " + 
+               
+                String pesanbaru = (detailPesanan.size() + 1) + ". (" + pilihanKarakter + " karakter)\n   " + 
                                             paket[pilihanPaket - 1] + " - " + hargaAkhir;
-                detailPesanan.add(detailPesananBaru);
+                detailPesanan.add(pesanbaru);
 
-                // Tanyakan apakah ingin menambah orderan
+                
                 System.out.println("\nApakah Anda ingin menambah orderan? (1. ya/ 2. tidak)");
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine(); 
                 String tambahOrder = scanner.nextLine();
                 if (!tambahOrder.equalsIgnoreCase("1")) {
                     menambahPesanan = false;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Input tidak valid! Silakan masukkan angka yang benar.");
-                scanner.nextLine(); // Clear the invalid input
+                scanner.nextLine(); 
             }
         }
 
-        // Pilihan metode pembayaran
+        //metode bayar
         boolean metodePembayaranValid = false;
         int pilihanPembayaran = 0;
 
@@ -115,55 +114,56 @@ public class sketch2 {
                 if (pilihanPembayaran < 1 || pilihanPembayaran > metodePembayaran.length) {
                     System.out.println("Pilihan tidak valid! Silakan coba lagi.");
                 } else {
-                    metodePembayaranValid = true; // Jika valid, keluar dari perulangan
+                    metodePembayaranValid = true; 
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Input tidak valid! Silakan masukkan angka yang benar.");
-                scanner.nextLine(); // Clear the invalid input
+                scanner.nextLine(); 
             }
         }
 
-        // Tambah biaya tambahan untuk metode pembayaran tertentu
+        
         if (pilihanPembayaran <= 3) {
             totalHarga += 2000;
         }
 
-        // Hitung batas waktu pembayaran (6 jam dari sekarang)
+        
         LocalDateTime sekarang = LocalDateTime.now();
         LocalDateTime batasWaktuPembayaran = sekarang.plusHours(6);
 
-        // Hitung deadline pengerjaan order
         LocalDateTime deadlinePengerjaan = hitungDeadline(sekarang, detailPesanan.size());
 
-        // Format dan simpan ke semua pesanan
+    
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String waktuPembelian = sekarang.format(formatter);
-        String waktuBatasPembayaran = batasWaktuPembayaran.format(formatter);
-        String waktuDeadlinePengerjaan = deadlinePengerjaan.format(formatter);
+        String waktubeli = sekarang.format(formatter);
+        String batasbayar = batasWaktuPembayaran.format(formatter);
+        String deadlinekerja = deadlinePengerjaan.format(formatter);
 
-        // Buat ringkasan pesanan
+        
         String ringkasanPesanan = "Nama: " + nickname + "\n" +
-                                   "Nomor Telepon: " + nomorTelepon + "\n" +
+                                   "Nomor Telepon: " + noTelp + "\n" +
                                    "Email: " + email + "\n" +
-                                   "Waktu Pembelian: " + waktuPembelian + "\n" +
+                                   "Waktu Pembelian: " + waktubeli + "\n" +
                                    "Detail Pesanan:\n";
         for (String detail : detailPesanan) {
             ringkasanPesanan += detail + "\n";
         }
         ringkasanPesanan += "Total Harga Akhir: Rp.  " + totalHarga + "\n" +
-                            "Deadline Pengerjaan: " + waktuDeadlinePengerjaan + "\n";
-        semuaPesanan.add(ringkasanPesanan);
+                            "Deadline Pengerjaan: " + deadlinekerja + "\n";
+        semuadata.add(ringkasanPesanan);
 
-        // Cetak Nota
+        //part terakhir
         System.out.println("\n======================== NOTA PEMBELIAN ========================");
         System.out.println(ringkasanPesanan);
-        System.out.println("Konfirmasi pembayaran sebelum: " + waktuBatasPembayaran);
+        System.out.println("Konfirmasi pembayaran sebelum: " + batasbayar);
         System.out.println("================================================================");
         System.out.println("\nMakasih ya kak udah jajan disini!");
     }
 
-    // Method untuk menghitung deadline pengerjaan order
+    
     public static LocalDateTime hitungDeadline(LocalDateTime tanggalMulai, int jumlahItem) {
         return tanggalMulai.plusDays(jumlahItem * 3); // Tambahkan 3 hari per item
     }
 }
+
+
